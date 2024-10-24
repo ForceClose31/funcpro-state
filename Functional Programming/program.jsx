@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -7,7 +7,7 @@ const Stack = createStackNavigator();
 
 const HomeScreen = ({ navigation }) => {
   const [name, setName] = useState(''); 
-  const [isNameSubmitted, setIsNameSubmitted] = useState(false);
+  const [isNameSubmitted, setIsNameSubmitted] = useState(false); 
   
   const handleSubmit = () => {
     if (name.trim() !== '') {
@@ -16,35 +16,59 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={{ padding: 20 }}>
+    <View style={styles.container}>
       <TextInput
         placeholder="Enter your name"
         value={name}
         onChangeText={(text) => setName(text)}
-        style={{ height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 20 }}
+        style={styles.input}
       />
-      
+
       {isNameSubmitted && (
         <Button
           title="Go to Details"
-          onPress={() => navigation.navigate('Details', { userName: name })}
+          onPress={() => navigation.navigate('Details', { userName: name })} 
+          style={styles.button} 
         />
       )}
       
-      <Button title="Submit Name" onPress={handleSubmit} />
+      <View style={styles.button}>
+        <Button title="Submit Name" onPress={handleSubmit} />
+      </View>
     </View>
   );
 };
 
 const DetailsScreen = ({ route }) => {
-  const { userName } = route.params; 
+  const { userName } = route.params;
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 20 }}>Hello, {userName}!</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>Hello, {userName}!</Text>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+    flex: 1,
+    justifyContent: 'center',
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+  },
+  button: {
+    marginVertical: 10, 
+  },
+  text: {
+    fontSize: 20,
+  },
+});
 
 const App = () => {
   return (
