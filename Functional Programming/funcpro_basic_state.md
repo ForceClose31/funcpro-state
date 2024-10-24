@@ -38,7 +38,7 @@ Pada contoh di atas, komponen `TextInputExample` bersifat **stateless** dan meng
 
 ## useState
 
-`useState` adalah hook yang memungkinkan Anda menambahkan state ke komponen fungsional di React. Ini menggantikan class-based state management dalam komponen fungsi, yang menjadikan kode lebih sederhana dan bersifat deklaratif.
+`useState` adalah hook dasar di React dan React Native yang memungkinkan kita menambahkan dan mengelola state lokal dalam komponen fungsional. Sebelum adanya hook, state hanya bisa dikelola di `komponen berbasis kelas`. Dengan useState, komponen fungsional bisa menjadi `dinamis`, di mana mereka dapat merespons input atau perubahan secara langsung.
 
 Contoh penggunaan
 
@@ -46,19 +46,78 @@ Contoh penggunaan
 import React, { useState } from 'react';
 import { View, Button, Text } from 'react-native';
 
-const Counter = () => {
+const CounterApp = () => {
   const [count, setCount] = useState(0);
 
   return (
     <View>
-      <Text>Count: {count}</Text>
+      <Text>Counter: {count}</Text>
       <Button title="Increase" onPress={() => setCount(count + 1)} />
+      <Button title="Decrease" onPress={() => setCount(count - 1)} />
     </View>
   );
 };
 
-export default Counter;
+export default CounterApp;
 ```
+
+- useState(0) menginisialisasi nilai state count dengan 0.
+- setCount(count + 1) memperbarui nilai count ketika tombol "Increase" ditekan.
+- Ketika count diperbarui, komponen akan rerender secara otomatis dengan nilai terbaru.
+
+Contoh penggunaan lainnya
+
+```js
+import React, { useState } from 'react';
+import { View, TextInput, Text } from 'react-native';
+
+const NameApp = () => {
+  const [name, setName] = useState('');
+
+  return (
+    <View>
+      <TextInput
+        placeholder="Enter your name"
+        value={name}
+        onChangeText={(text) => setName(text)}
+        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+      />
+      <Text>Hello, {name}!</Text>
+    </View>
+  );
+};
+
+export default NameApp;
+```
+
+- useState('') menginisialisasi state name sebagai string kosong.
+- Ketika pengguna mengetik di dalam TextInput, onChangeText memicu perubahan, dan setName diperbarui dengan teks yang dimasukkan.
+- Nama yang dimasukkan pengguna langsung ditampilkan pada Text di bawahnya.
+
+1. Apa itu state?
+
+   State adalah data yang dimiliki oleh suatu komponen yang bisa berubah seiring waktu. Misalnya, jika Anda membuat aplikasi counter, nilai counter tersebut adalah state yang dapat bertambah atau berkurang saat pengguna menekan tombol.
+
+2. Mengapa menggunakan useState?
+
+   Dalam React, komponen pada dasarnya adalah fungsi murni yang menerima props dan menghasilkan UI. Namun, beberapa komponen perlu merespons perubahan data, seperti interaksi pengguna atau data yang diperbarui, di sinilah state dibutuhkan. useState memungkinkan Anda menangani perubahan tersebut secara otomatis.
+
+3. Cara Kerja useState
+
+   Ketika useState dipanggil, ini mengembalikan dua hal:
+   
+   - Nilai state saat ini.
+   - Sebuah fungsi untuk memperbarui nilai state tersebut.
+
+### Syntax dasar
+
+```js
+const [state, setState] = useState(initialValue);
+```
+
+- state: Menyimpan nilai saat ini dari state.
+- setState: Fungsi untuk memperbarui state.
+- initialValue: Nilai awal state yang hanya digunakan pertama kali komponen dirender.
 
 ### Kapan digunakan?
 
